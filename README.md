@@ -11,6 +11,8 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/to/develop-packages).
 -->
 
+[English](README.md) | [日本語](README_ja.md)
+
 A Flutter client for the Japan Post API (https://lp-api.da.pf.japanpost.jp/). 
 This package simplifies interaction with Japan Post services, making it incredibly straightforward to integrate postal code and address search functionalities into your Flutter applications.
 
@@ -53,11 +55,17 @@ final JapanPostApiClient apiClient = JapanPostApiClient(
 );
 
 Future<void> initializeApiClient(String publicIp) async {
-  try {
-    await apiClient.getToken(publicIp);
-    print('API Client initialized and token obtained.');
-  } catch (e) {
-    print('Error initializing API Client or getting token: $e');
+  final result = await apiClient.getToken(publicIp);
+  switch (result) {
+    case ApiResultOk():
+      // API Client initialized and token obtained.
+      // TODO: Update UI state to indicate successful initialization
+      // For example: setState(() { _isApiClientInitialized = true; });
+      break;
+    case ApiResultError(error: final e, stackTrace: final s):
+      // TODO: Handle initialization error, e.g., show a SnackBar or dialog
+      // print('Error initializing API Client or getting token: $e');
+      break;
   }
 }
 ```
@@ -69,18 +77,23 @@ To search for an address using a postal code:
 ```dart
 import 'package:japan_post_api_client/japan_post_api_client.dart';
 
-Future<void> searchByPostalCode(String postalCode) async {
-  try {
-    final searchcodeRes = await apiClient.search(postalCode);
-    if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {
-      for (var address in searchcodeRes.addresses) {
-        print('Address: ${address.prefName} ${address.cityName} ${address.townName}');
+Future<List<SearchcodeSearchResAddressesInner>> searchByPostalCode(String postalCode) async {
+  final result = await apiClient.searchByPostalCode(postalCode);
+  switch (result) {
+    case ApiResultOk(data: final searchcodeRes):
+      if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {
+        // TODO: Update UI with the list of addresses
+        // For example: setState(() { _addresses = searchcodeRes.addresses; });
+        return searchcodeRes.addresses;
+      } else {
+        // TODO: Handle no address found, e.g., show a message to the user
+        // print('No address found for postal code: $postalCode');
+        return [];
       }
-    } else {
-      print('No address found for postal code: $postalCode');
-    }
-  } catch (e) {
-    print('Error searching by postal code: $e');
+    case ApiResultError(error: final e, stackTrace: final s):
+      // TODO: Handle search error, e.g., show a SnackBar or dialog
+      // print('Error searching by postal code: $e');
+      return [];
   }
 }
 ```
@@ -93,29 +106,155 @@ To search for an address using prefecture, city, and town names:
 import 'package:japan_post_api_client/japan_post_api_client.dart';
 import 'package:japan_post_api_client/src/model/address_req.dart';
 
-Future<void> searchByAddressDetails(String prefName, String cityName, String townName) async {
-  try {
-    final addressReq = AddressReq(
-      prefName: prefName,
-      cityName: cityName,
-      townName: townName,
-    );
-    final addressRes = await apiClient.searchAddress(addressReq);
-    if (addressRes != null && addressRes.addresses.isNotEmpty) {
-      for (var address in addressRes.addresses) {
-        print('Address: ${address.prefName} ${address.cityName} ${address.townName}');
+Future<List<AddressResAddressesInner>> searchByAddressDetails(String prefName, String cityName, String townName) async {
+  final addressReq = AddressReq(
+    prefName: prefName,
+    cityName: cityName,
+    townName: townName,
+  );
+  final result = await apiClient.searchByAddress(addressReq);
+  switch (result) {
+    case ApiResultOk(data: final addressRes):
+      if (addressRes != null && addressRes.addresses.isNotEmpty) {
+        // TODO: Update UI with the list of addresses
+        // For example: setState(() { _addresses = addressRes.addresses; });
+        return addressRes.addresses;
+      } else {
+        // TODO: Handle no address found
+        // print('No address found for the provided details.');
+        return [];
       }
-    } else {
-      print('No address found for the provided details.');
-    }
-  } catch (e) {
-    print('Error searching by address details: $e');
+    case ApiResultError(error: final e, stackTrace: final s):
+      // TODO: Handle search error, e.g., show a SnackBar or dialog
+      // print('Error searching by address details: $e');
+      return [];
   }
 }
 ```
 
 For a complete, runnable example, please refer to the `example/` directory in this repository.
 
+### Direct API Access
+
+For more granular control or to access specific API endpoints directly, you can use the `apiClient.searchcodeApi` and `apiClient.addresszipApi` fields after successful token initialization. These fields expose the underlying API client objects, allowing you to call their methods with all available parameters.
+
+**Example: Using `searchcodeApi` directly**
+
+```dart
+import 'package:japan_post_api_client/japan_post_api_client.dart';
+import 'package:japan_post_api_client/src/api/searchcode_api.dart'; // Import if not already available
+import 'package:japan_post_api_client/src/model/searchcode_search_res.dart'; // Import if not already available
+
+Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(String postalCode, {
+  String? dgacode,
+  String? prefCode,
+  String? prefName,
+  String? prefKana,
+  String? prefRoma,
+  int? cityCode,
+  String? cityName,
+  String? cityKana,
+  String? cityRoma,
+  String? townName,
+  String? townKana,
+  String? townRoma,
+  String? bizName,
+  String? bizKana,
+  String? bizRoma,
+  String? blockName,
+  String? otherName,
+  String? address,
+  String? longitude,
+  String? latitude,
+  int? page,
+  int? limit,
+}) async {
+  // Ensure API client is initialized and token is valid
+  // await apiClient.getToken(publicIp); // Call this if token is not yet obtained or expired
+
+  final SearchcodeApi? searchcodeApi = apiClient.searchcodeApi;
+
+  if (searchcodeApi == null) {
+    // Handle case where searchcodeApi is not initialized (e.g., token not obtained)
+    return [];
+  }
+
+  try {
+    final searchcodeRes = await searchcodeApi.searchCode(
+      postalCode,
+      dgacode: dgacode,
+      prefCode: prefCode,
+      prefName: prefName,
+      prefKana: prefKana,
+      prefRoma: prefRoma,
+      cityCode: cityCode,
+      cityName: cityName,
+      cityKana: cityKana,
+      cityRoma: cityRoma,
+      townName: townName,
+      townKana: townKana,
+      townRoma: townRoma,
+      bizName: bizName,
+      bizKana: bizKana,
+      bizRoma: bizRoma,
+      blockName: blockName,
+      otherName: otherName,
+      address: address,
+      longitude: longitude,
+      latitude: latitude,
+      page: page,
+      limit: limit,
+    );
+
+    if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {
+      // TODO: Process and display the addresses
+      return searchcodeRes.addresses;
+    } else {
+      // TODO: Handle no address found
+      return [];
+    }
+  } catch (e) {
+    // TODO: Handle API error
+    return [];
+  }
+}
+```
+
+**Example: Using `addresszipApi` directly**
+
+```dart
+import 'package:japan_post_api_client/japan_post_api_client.dart';
+import 'package:japan_post_api_client/src/api/addresszip_api.dart'; // Import if not already available
+import 'package:japan_post_api_client/src/model/address_req.dart'; // Import if not already available
+import 'package:japan_post_api_client/src/model/address_res.dart'; // Import if not already available
+
+Future<List<AddressResAddressesInner>> directSearchAddress(AddressReq addressReq) async {
+  // Ensure API client is initialized and token is valid
+  // await apiClient.getToken(publicIp); // Call this if token is not yet obtained or expired
+
+  final AddresszipApi? addresszipApi = apiClient.addresszipApi;
+
+  if (addresszipApi == null) {
+    // Handle case where addresszipApi is not initialized (e.g., token not obtained)
+    return [];
+  }
+
+  try {
+    final addressRes = await addresszipApi.searchAddress(addressReq);
+
+    if (addressRes != null && addressRes.addresses.isNotEmpty) {
+      // TODO: Process and display the addresses
+      return addressRes.addresses;
+    } else {
+      // TODO: Handle no address found
+      return [];
+    }
+  } catch (e) {
+    // TODO: Handle API error
+    return [];
+  }
+}
+```
 
 ## Additional information
 

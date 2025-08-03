@@ -1,14 +1,14 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.18
+// @dart=3.8
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of '../../japan_post_api_client.dart';
 
 class SearchcodeSearchRes {
   /// Returns a new [SearchcodeSearchRes] instance.
@@ -35,32 +35,35 @@ class SearchcodeSearchRes {
   List<SearchcodeSearchResAddressesInner> addresses;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is SearchcodeSearchRes &&
-    other.page == page &&
-    other.limit == limit &&
-    other.count == count &&
-    other.searchtype == searchtype &&
-    _deepEquality.equals(other.addresses, addresses);
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SearchcodeSearchRes &&
+          other.page == page &&
+          other.limit == limit &&
+          other.count == count &&
+          other.searchtype == searchtype &&
+          _deepEquality.equals(other.addresses, addresses);
 
   @override
   int get hashCode =>
-    // ignore: unnecessary_parenthesis
-    (page.hashCode) +
-    (limit.hashCode) +
-    (count.hashCode) +
-    (searchtype.hashCode) +
-    (addresses.hashCode);
+      // ignore: unnecessary_parenthesis
+      (page.hashCode) +
+      (limit.hashCode) +
+      (count.hashCode) +
+      (searchtype.hashCode) +
+      (addresses.hashCode);
 
   @override
-  String toString() => 'SearchcodeSearchRes[page=$page, limit=$limit, count=$count, searchtype=$searchtype, addresses=$addresses]';
+  String toString() =>
+      'SearchcodeSearchRes[page=$page, limit=$limit, count=$count, searchtype=$searchtype, addresses=$addresses]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'page'] = this.page;
-      json[r'limit'] = this.limit;
-      json[r'count'] = this.count;
-      json[r'searchtype'] = this.searchtype;
-      json[r'addresses'] = this.addresses;
+    json[r'page'] = page;
+    json[r'limit'] = limit;
+    json[r'count'] = count;
+    json[r'searchtype'] = searchtype;
+    json[r'addresses'] = addresses;
     return json;
   }
 
@@ -75,10 +78,16 @@ class SearchcodeSearchRes {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "SearchcodeSearchRes[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "SearchcodeSearchRes[$key]" has a null value in JSON.');
-        });
+        for (var key in requiredKeys) {
+          assert(
+            json.containsKey(key),
+            'Required key "SearchcodeSearchRes[$key]" is missing from JSON.',
+          );
+          assert(
+            json[key] != null,
+            'Required key "SearchcodeSearchRes[$key]" has a null value in JSON.',
+          );
+        }
         return true;
       }());
 
@@ -87,13 +96,18 @@ class SearchcodeSearchRes {
         limit: mapValueOfType<int>(json, r'limit')!,
         count: mapValueOfType<int>(json, r'count')!,
         searchtype: mapValueOfType<String>(json, r'searchtype')!,
-        addresses: SearchcodeSearchResAddressesInner.listFromJson(json[r'addresses']),
+        addresses: SearchcodeSearchResAddressesInner.listFromJson(
+          json[r'addresses'],
+        ),
       );
     }
     return null;
   }
 
-  static List<SearchcodeSearchRes> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<SearchcodeSearchRes> listFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final result = <SearchcodeSearchRes>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -121,13 +135,19 @@ class SearchcodeSearchRes {
   }
 
   // maps a json object with a list of SearchcodeSearchRes-objects as value to a dart map
-  static Map<String, List<SearchcodeSearchRes>> mapListFromJson(dynamic json, {bool growable = false,}) {
+  static Map<String, List<SearchcodeSearchRes>> mapListFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final map = <String, List<SearchcodeSearchRes>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = SearchcodeSearchRes.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = SearchcodeSearchRes.listFromJson(
+          entry.value,
+          growable: growable,
+        );
       }
     }
     return map;
@@ -142,4 +162,3 @@ class SearchcodeSearchRes {
     'addresses',
   };
 }
-

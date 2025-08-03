@@ -1,14 +1,14 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.18
+// @dart=3.8
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of '../../japan_post_api_client.dart';
 
 class AddressRes {
   /// Returns a new [AddressRes] instance.
@@ -35,32 +35,35 @@ class AddressRes {
   List<AddressResAddressesInner> addresses;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AddressRes &&
-    other.level == level &&
-    other.page == page &&
-    other.limit == limit &&
-    other.count == count &&
-    _deepEquality.equals(other.addresses, addresses);
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AddressRes &&
+          other.level == level &&
+          other.page == page &&
+          other.limit == limit &&
+          other.count == count &&
+          _deepEquality.equals(other.addresses, addresses);
 
   @override
   int get hashCode =>
-    // ignore: unnecessary_parenthesis
-    (level.hashCode) +
-    (page.hashCode) +
-    (limit.hashCode) +
-    (count.hashCode) +
-    (addresses.hashCode);
+      // ignore: unnecessary_parenthesis
+      (level.hashCode) +
+      (page.hashCode) +
+      (limit.hashCode) +
+      (count.hashCode) +
+      (addresses.hashCode);
 
   @override
-  String toString() => 'AddressRes[level=$level, page=$page, limit=$limit, count=$count, addresses=$addresses]';
+  String toString() =>
+      'AddressRes[level=$level, page=$page, limit=$limit, count=$count, addresses=$addresses]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-      json[r'level'] = this.level;
-      json[r'page'] = this.page;
-      json[r'limit'] = this.limit;
-      json[r'count'] = this.count;
-      json[r'addresses'] = this.addresses;
+    json[r'level'] = level;
+    json[r'page'] = page;
+    json[r'limit'] = limit;
+    json[r'count'] = count;
+    json[r'addresses'] = addresses;
     return json;
   }
 
@@ -75,10 +78,16 @@ class AddressRes {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "AddressRes[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "AddressRes[$key]" has a null value in JSON.');
-        });
+        for (var key in requiredKeys) {
+          assert(
+            json.containsKey(key),
+            'Required key "AddressRes[$key]" is missing from JSON.',
+          );
+          assert(
+            json[key] != null,
+            'Required key "AddressRes[$key]" has a null value in JSON.',
+          );
+        }
         return true;
       }());
 
@@ -93,7 +102,7 @@ class AddressRes {
     return null;
   }
 
-  static List<AddressRes> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AddressRes> listFromJson(dynamic json, {bool growable = false}) {
     final result = <AddressRes>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -121,13 +130,19 @@ class AddressRes {
   }
 
   // maps a json object with a list of AddressRes-objects as value to a dart map
-  static Map<String, List<AddressRes>> mapListFromJson(dynamic json, {bool growable = false,}) {
+  static Map<String, List<AddressRes>> mapListFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final map = <String, List<AddressRes>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AddressRes.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = AddressRes.listFromJson(
+          entry.value,
+          growable: growable,
+        );
       }
     }
     return map;
@@ -142,4 +157,3 @@ class AddressRes {
     'addresses',
   };
 }
-

@@ -1,72 +1,94 @@
-import 'package:japan_post_api_client/src/api.dart';
+import 'package:japan_post_api_client/japan_post_api_client.dart';
 
 class JapanPostApiClient {
   final String clientId;
   final String secretKey;
-  final TokenApi _tokenApi = TokenApi(ApiClient());
-  SearchcodeApi? _searchcodeApi;
-  AddresszipApi? _addresszipApi;
+  TokenApi? tokenApi;
+  SearchcodeApi? searchcodeApi;
+  AddresszipApi? addresszipApi;
   DateTime? _tokenExpiration;
+  ApiClientFactory? apiClientFactory;
 
-  JapanPostApiClient({required this.clientId, required this.secretKey});
+  // JapanPostApiClient({required this.clientId, required this.secretKey});
+  JapanPostApiClient({
+    required this.clientId,
+    required this.secretKey,
+    this.apiClientFactory,
+  }) {
+    apiClientFactory ??= ApiClientFactory();
+    tokenApi = apiClientFactory?.createTokeApi(ApiClient());
+  }
 
-  Future<void> getToken(String publicIp) async {
+  Future<ApiResult<JtokenRes?>> getToken(String publicIp) async {
     try {
       final jtokenReq = JtokenReq(
         grantType: 'client_credentials',
         clientId: clientId,
         secretKey: secretKey,
       );
-      final tokenResponse = await _tokenApi.posttoken(publicIp, jtokenReq);
 
-      if (tokenResponse != null) {
-        _tokenExpiration = DateTime.now().add(
-          Duration(seconds: tokenResponse.expiresIn),
-        );
-        final auth = HttpBearerAuth();
-        auth.accessToken = tokenResponse.token;
-        _searchcodeApi = SearchcodeApi(ApiClient(authentication: auth));
-        _addresszipApi = AddresszipApi(ApiClient(authentication: auth));
-      } else {
-        _tokenExpiration = null;
-        _searchcodeApi = null;
-      }
-    } catch (e) {
-      print('Error getting token: $e');
+      return switch (await tokenApi?.posttoken(publicIp, jtokenReq)) {
+        JtokenRes tokenRes => () {
+          _tokenExpiration = DateTime.now().add(
+            Duration(seconds: tokenRes.expiresIn),
+          );
+          final auth = HttpBearerAuth();
+          auth.accessToken = tokenRes.token;
+          searchcodeApi = apiClientFactory?.createSearchcodeApi(
+            ApiClient(authentication: auth),
+          );
+          addresszipApi = apiClientFactory?.createAddresszipApi(
+            ApiClient(authentication: auth),
+          );
+
+          return ApiResult.ok(tokenRes);
+        }(),
+        _ => () {
+          _tokenExpiration = null;
+          searchcodeApi = null;
+          return ApiResult.ok(null);
+        }(),
+      };
+    } catch (e, s) {
       _tokenExpiration = null;
-      _searchcodeApi = null;
-      rethrow;
+      searchcodeApi = null;
+      return ApiResult.error(e, s);
     }
   }
 
-  Future<SearchcodeSearchRes?> search(String postalCode) async {
-    if (!isTokenValid() || _searchcodeApi == null) {
-      throw Exception(
-        'Token is not available or has expired. Please get a new token.',
-      );
-    }
-    try {
-      final result = await _searchcodeApi!.searchCode(postalCode);
-      return result;
-    } catch (e) {
-      print('Error searching: $e');
-      rethrow;
-    }
-  }
-
-  Future<AddressRes?> searchAddress(AddressReq addressReq) async {
-    if (!isTokenValid() || _addresszipApi == null) {
-      throw Exception(
-        'Token is not available or has expired. Please get a new token.',
+  Future<ApiResult<SearchcodeSearchRes?>> searchByPostalCode(
+    String postalCode,
+  ) async {
+    if (!isTokenValid() || searchcodeApi == null) {
+      return ApiResult.error(
+        Exception(
+          'Token is not available or has expired. Please get a new token.',
+        ),
+        StackTrace.current,
       );
     }
 
     try {
-      final result = await _addresszipApi!.searchAddress(addressReq);
-      return result;
-    } catch (e) {
-      print('Error searching address: $e');
-      rethrow;
+      return ApiResult.ok(await searchcodeApi!.searchCode(postalCode));
+    } catch (e, s) {
+      return ApiResult.error(e, s);
+    }
+  }
+
+  Future<ApiResult<AddressRes?>> searchByAddress(AddressReq addressReq) async {
+    if (!isTokenValid() || addresszipApi == null) {
+      return ApiResult.error(
+        Exception(
+          'Token is not available or has expired. Please get a new token.',
+        ),
+        StackTrace.current,
+      );
+    }
+
+    try {
+      return ApiResult.ok(await addresszipApi!.searchAddress(addressReq));
+    } catch (e, s) {
+      return ApiResult.error(e, s);
     }
   }
 

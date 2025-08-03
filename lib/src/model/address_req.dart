@@ -1,14 +1,14 @@
 //
 // AUTO-GENERATED FILE, DO NOT MODIFY!
 //
-// @dart=2.18
+// @dart=3.8
 
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: constant_identifier_names
 // ignore_for_file: lines_longer_than_80_chars
 
-part of openapi.api;
+part of '../../japan_post_api_client.dart';
 
 class AddressReq {
   /// Returns a new [AddressReq] instance.
@@ -176,126 +176,129 @@ class AddressReq {
   int? limit;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is AddressReq &&
-    other.prefCode == prefCode &&
-    other.prefName == prefName &&
-    other.prefKana == prefKana &&
-    other.prefRoma == prefRoma &&
-    other.cityCode == cityCode &&
-    other.cityName == cityName &&
-    other.cityKana == cityKana &&
-    other.cityRoma == cityRoma &&
-    other.townName == townName &&
-    other.townKana == townKana &&
-    other.townRoma == townRoma &&
-    other.freeword == freeword &&
-    other.flgGetcity == flgGetcity &&
-    other.flgGetpref == flgGetpref &&
-    other.page == page &&
-    other.limit == limit;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AddressReq &&
+          other.prefCode == prefCode &&
+          other.prefName == prefName &&
+          other.prefKana == prefKana &&
+          other.prefRoma == prefRoma &&
+          other.cityCode == cityCode &&
+          other.cityName == cityName &&
+          other.cityKana == cityKana &&
+          other.cityRoma == cityRoma &&
+          other.townName == townName &&
+          other.townKana == townKana &&
+          other.townRoma == townRoma &&
+          other.freeword == freeword &&
+          other.flgGetcity == flgGetcity &&
+          other.flgGetpref == flgGetpref &&
+          other.page == page &&
+          other.limit == limit;
 
   @override
   int get hashCode =>
-    // ignore: unnecessary_parenthesis
-    (prefCode == null ? 0 : prefCode!.hashCode) +
-    (prefName == null ? 0 : prefName!.hashCode) +
-    (prefKana == null ? 0 : prefKana!.hashCode) +
-    (prefRoma == null ? 0 : prefRoma!.hashCode) +
-    (cityCode == null ? 0 : cityCode!.hashCode) +
-    (cityName == null ? 0 : cityName!.hashCode) +
-    (cityKana == null ? 0 : cityKana!.hashCode) +
-    (cityRoma == null ? 0 : cityRoma!.hashCode) +
-    (townName == null ? 0 : townName!.hashCode) +
-    (townKana == null ? 0 : townKana!.hashCode) +
-    (townRoma == null ? 0 : townRoma!.hashCode) +
-    (freeword == null ? 0 : freeword!.hashCode) +
-    (flgGetcity == null ? 0 : flgGetcity!.hashCode) +
-    (flgGetpref == null ? 0 : flgGetpref!.hashCode) +
-    (page == null ? 0 : page!.hashCode) +
-    (limit == null ? 0 : limit!.hashCode);
+      // ignore: unnecessary_parenthesis
+      (prefCode == null ? 0 : prefCode!.hashCode) +
+      (prefName == null ? 0 : prefName!.hashCode) +
+      (prefKana == null ? 0 : prefKana!.hashCode) +
+      (prefRoma == null ? 0 : prefRoma!.hashCode) +
+      (cityCode == null ? 0 : cityCode!.hashCode) +
+      (cityName == null ? 0 : cityName!.hashCode) +
+      (cityKana == null ? 0 : cityKana!.hashCode) +
+      (cityRoma == null ? 0 : cityRoma!.hashCode) +
+      (townName == null ? 0 : townName!.hashCode) +
+      (townKana == null ? 0 : townKana!.hashCode) +
+      (townRoma == null ? 0 : townRoma!.hashCode) +
+      (freeword == null ? 0 : freeword!.hashCode) +
+      (flgGetcity == null ? 0 : flgGetcity!.hashCode) +
+      (flgGetpref == null ? 0 : flgGetpref!.hashCode) +
+      (page == null ? 0 : page!.hashCode) +
+      (limit == null ? 0 : limit!.hashCode);
 
   @override
-  String toString() => 'AddressReq[prefCode=$prefCode, prefName=$prefName, prefKana=$prefKana, prefRoma=$prefRoma, cityCode=$cityCode, cityName=$cityName, cityKana=$cityKana, cityRoma=$cityRoma, townName=$townName, townKana=$townKana, townRoma=$townRoma, freeword=$freeword, flgGetcity=$flgGetcity, flgGetpref=$flgGetpref, page=$page, limit=$limit]';
+  String toString() =>
+      'AddressReq[prefCode=$prefCode, prefName=$prefName, prefKana=$prefKana, prefRoma=$prefRoma, cityCode=$cityCode, cityName=$cityName, cityKana=$cityKana, cityRoma=$cityRoma, townName=$townName, townKana=$townKana, townRoma=$townRoma, freeword=$freeword, flgGetcity=$flgGetcity, flgGetpref=$flgGetpref, page=$page, limit=$limit]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    if (this.prefCode != null) {
-      json[r'pref_code'] = this.prefCode;
+    if (prefCode != null) {
+      json[r'pref_code'] = prefCode;
     } else {
       json[r'pref_code'] = null;
     }
-    if (this.prefName != null) {
-      json[r'pref_name'] = this.prefName;
+    if (prefName != null) {
+      json[r'pref_name'] = prefName;
     } else {
       json[r'pref_name'] = null;
     }
-    if (this.prefKana != null) {
-      json[r'pref_kana'] = this.prefKana;
+    if (prefKana != null) {
+      json[r'pref_kana'] = prefKana;
     } else {
       json[r'pref_kana'] = null;
     }
-    if (this.prefRoma != null) {
-      json[r'pref_roma'] = this.prefRoma;
+    if (prefRoma != null) {
+      json[r'pref_roma'] = prefRoma;
     } else {
       json[r'pref_roma'] = null;
     }
-    if (this.cityCode != null) {
-      json[r'city_code'] = this.cityCode;
+    if (cityCode != null) {
+      json[r'city_code'] = cityCode;
     } else {
       json[r'city_code'] = null;
     }
-    if (this.cityName != null) {
-      json[r'city_name'] = this.cityName;
+    if (cityName != null) {
+      json[r'city_name'] = cityName;
     } else {
       json[r'city_name'] = null;
     }
-    if (this.cityKana != null) {
-      json[r'city_kana'] = this.cityKana;
+    if (cityKana != null) {
+      json[r'city_kana'] = cityKana;
     } else {
       json[r'city_kana'] = null;
     }
-    if (this.cityRoma != null) {
-      json[r'city_roma'] = this.cityRoma;
+    if (cityRoma != null) {
+      json[r'city_roma'] = cityRoma;
     } else {
       json[r'city_roma'] = null;
     }
-    if (this.townName != null) {
-      json[r'town_name'] = this.townName;
+    if (townName != null) {
+      json[r'town_name'] = townName;
     } else {
       json[r'town_name'] = null;
     }
-    if (this.townKana != null) {
-      json[r'town_kana'] = this.townKana;
+    if (townKana != null) {
+      json[r'town_kana'] = townKana;
     } else {
       json[r'town_kana'] = null;
     }
-    if (this.townRoma != null) {
-      json[r'town_roma'] = this.townRoma;
+    if (townRoma != null) {
+      json[r'town_roma'] = townRoma;
     } else {
       json[r'town_roma'] = null;
     }
-    if (this.freeword != null) {
-      json[r'freeword'] = this.freeword;
+    if (freeword != null) {
+      json[r'freeword'] = freeword;
     } else {
       json[r'freeword'] = null;
     }
-    if (this.flgGetcity != null) {
-      json[r'flg_getcity'] = this.flgGetcity;
+    if (flgGetcity != null) {
+      json[r'flg_getcity'] = flgGetcity;
     } else {
       json[r'flg_getcity'] = null;
     }
-    if (this.flgGetpref != null) {
-      json[r'flg_getpref'] = this.flgGetpref;
+    if (flgGetpref != null) {
+      json[r'flg_getpref'] = flgGetpref;
     } else {
       json[r'flg_getpref'] = null;
     }
-    if (this.page != null) {
-      json[r'page'] = this.page;
+    if (page != null) {
+      json[r'page'] = page;
     } else {
       json[r'page'] = null;
     }
-    if (this.limit != null) {
-      json[r'limit'] = this.limit;
+    if (limit != null) {
+      json[r'limit'] = limit;
     } else {
       json[r'limit'] = null;
     }
@@ -313,10 +316,16 @@ class AddressReq {
       // Note 1: the values aren't checked for validity beyond being non-null.
       // Note 2: this code is stripped in release mode!
       assert(() {
-        requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "AddressReq[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "AddressReq[$key]" has a null value in JSON.');
-        });
+        for (var key in requiredKeys) {
+          assert(
+            json.containsKey(key),
+            'Required key "AddressReq[$key]" is missing from JSON.',
+          );
+          assert(
+            json[key] != null,
+            'Required key "AddressReq[$key]" has a null value in JSON.',
+          );
+        }
         return true;
       }());
 
@@ -342,7 +351,7 @@ class AddressReq {
     return null;
   }
 
-  static List<AddressReq> listFromJson(dynamic json, {bool growable = false,}) {
+  static List<AddressReq> listFromJson(dynamic json, {bool growable = false}) {
     final result = <AddressReq>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
@@ -370,20 +379,24 @@ class AddressReq {
   }
 
   // maps a json object with a list of AddressReq-objects as value to a dart map
-  static Map<String, List<AddressReq>> mapListFromJson(dynamic json, {bool growable = false,}) {
+  static Map<String, List<AddressReq>> mapListFromJson(
+    dynamic json, {
+    bool growable = false,
+  }) {
     final map = <String, List<AddressReq>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = AddressReq.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = AddressReq.listFromJson(
+          entry.value,
+          growable: growable,
+        );
       }
     }
     return map;
   }
 
   /// The list of required keys that must be present in a JSON.
-  static const requiredKeys = <String>{
-  };
+  static const requiredKeys = <String>{};
 }
-

@@ -33,7 +33,7 @@ class AddressSearchPage extends StatefulWidget {
 }
 
 class _AddressSearchPageState extends State<AddressSearchPage> {
-  final JapanPostApiClient _apiClient = JapanPostApiClient(
+  final _apiClient = JapanPostApiClient(
     clientId: dotenv.env['CLIENT_ID']!,
     secretKey: dotenv.env['SECRET_KEY']!,
   );
@@ -108,28 +108,26 @@ class _PostalCodeSearchTabState extends State<PostalCodeSearchTab> {
       _addressResults = ['Searching...'];
     });
 
-    try {
-      final searchcodeRes = await widget.apiClient.search(postalCode);
-
-      if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {
+    final searchcodeRes = await widget.apiClient.searchByPostalCode(postalCode);
+    switch (searchcodeRes) {
+      case ApiResultOk(data: SearchcodeSearchRes(addresses: final addresses)):
         setState(() {
-          _addressResults = searchcodeRes.addresses
+          _addressResults = addresses
               .map(
                 (address) =>
                     '${address.prefName} ${address.cityName} ${address.townName}',
               )
               .toList();
         });
-      } else {
+      case ApiResultError(error: final e, stackTrace: final s):
+        setState(() {
+          _addressResults = ['Something went wrong.'];
+        });
+        _logger.e('Error searching by postal code', error: e, stackTrace: s);
+      default:
         setState(() {
           _addressResults = ['No address found for this postal code.'];
         });
-      }
-    } catch (e) {
-      _logger.e('Error searching by postal code: $e');
-      setState(() {
-        _addressResults = ['Error: ${e.toString()}'];
-      });
     }
   }
 
@@ -155,8 +153,8 @@ class _PostalCodeSearchTabState extends State<PostalCodeSearchTab> {
               child: const Text('Search by Postal Code'),
             ),
             Text(
-              _addressResults.join(r'\n'),
-              textAlign: TextAlign.center,
+              _addressResults.join('\n'),
+              // textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ],
@@ -198,33 +196,36 @@ class _AddressDetailSearchTabState extends State<AddressDetailSearchTab> {
       _addressResults = ['Searching...'];
     });
 
-    try {
-      final addressReq = AddressReq(
-        prefName: prefName.isEmpty ? null : prefName,
-        cityName: cityName.isEmpty ? null : cityName,
-        townName: townName.isEmpty ? null : townName,
-      );
-      final addressRes = await widget.apiClient.searchAddress(addressReq);
+    final addressReq = AddressReq(
+      prefName: prefName.isEmpty ? null : prefName,
+      cityName: cityName.isEmpty ? null : cityName,
+      townName: townName.isEmpty ? null : townName,
+    );
+    final addressRes = await widget.apiClient.searchByAddress(addressReq);
 
-      if (addressRes != null && addressRes.addresses.isNotEmpty) {
+    switch (addressRes) {
+      case ApiResultOk(data: AddressRes(addresses: final addresses)):
         setState(() {
-          _addressResults = addressRes.addresses
+          _addressResults = addresses
               .map(
                 (address) =>
                     '${address.prefName} ${address.cityName} ${address.townName}',
               )
               .toList();
         });
-      } else {
+      case ApiResultError(error: final e, stackTrace: final s):
+        _logger.e(
+          'Error searching by address details: ',
+          error: e,
+          stackTrace: s,
+        );
+        setState(() {
+          _addressResults = ['Error: ${e.toString()}'];
+        });
+      default:
         setState(() {
           _addressResults = ['No address found for the provided details.'];
         });
-      }
-    } catch (e) {
-      _logger.e('Error searching by address details: $e');
-      setState(() {
-        _addressResults = ['Error: ${e.toString()}'];
-      });
     }
   }
 
@@ -264,7 +265,6 @@ class _AddressDetailSearchTabState extends State<AddressDetailSearchTab> {
             ),
             Text(
               _addressResults.join('\n'),
-              textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.headlineSmall,
             ),
           ],
@@ -273,4 +273,3 @@ class _AddressDetailSearchTabState extends State<AddressDetailSearchTab> {
     );
   }
 }
-
