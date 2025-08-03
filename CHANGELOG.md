@@ -1,3 +1,7 @@
+## 0.9.2
+
+*   Updated pubspec.yaml description for higher pub points.
+
 ## 0.9.1
 
 *   Removed unused packages.
