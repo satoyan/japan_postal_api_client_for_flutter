@@ -69,6 +69,34 @@ Future<void> initializeApiClient(String publicIp) async {
 }
 ```
 
+**パブリックIPアドレスの取得（例）**
+
+日本郵便APIはトークン取得のためにパブリックIPアドレスを必要とします。`public_ip_address`のようなパッケージを使用してプログラムで取得できます。
+
+まず、`pubspec.yaml`に依存関係を追加します：
+
+```yaml
+dependencies:
+  public_ip_address: ^最新バージョン # 最新のバージョンを使用してください
+```
+
+Then, you can get the IP address like this:
+
+```dart
+import 'package:public_ip_address/public_ip_address.dart';
+
+Future<String?> getPublicIp() async {
+  final ipChecker = IpAddress();
+  try {
+    final ipAddress = await ipChecker.getIp();
+    return ipAddress;
+  } catch (e) {
+    // エラーを処理します。例：ログに記録するかメッセージを表示する
+    return null;
+  }
+}
+```
+
 ### 郵便番号検索
 
 郵便番号を使用して住所を検索するには:

@@ -16,6 +16,9 @@ and the Flutter guide for
 A Flutter client for the Japan Post API (https://lp-api.da.pf.japanpost.jp/). 
 This package simplifies interaction with Japan Post services, making it incredibly straightforward to integrate postal code and address search functionalities into your Flutter applications.
 
+日本郵便API（https://lp-api.da.pf.japanpost.jp/）のFlutterクライアントです。 
+このパッケージは日本郵便サービスとの連携を簡素化し、郵便番号や住所検索機能をFlutterアプリケーションに非常に簡単に統合できるようにします。
+
 ## Features
 
 *   **Postal Code Search:** Easily search for addresses using a Japanese postal code.
@@ -49,10 +52,7 @@ You will also need to obtain an API token using your public IP address. The `get
 import 'package:japan_post_api_client/japan_post_api_client.dart';
 
 // Replace with your actual client ID and secret key
-final JapanPostApiClient apiClient = JapanPostApiClient(
-  clientId: 'YOUR_CLIENT_ID',
-  secretKey: 'YOUR_SECRET_KEY',
-);
+final JapanPostApiClient apiClient = JapanPostApiClient;
 
 Future<void> initializeApiClient(String publicIp) async {
   final result = await apiClient.getToken(publicIp);
@@ -69,6 +69,36 @@ Future<void> initializeApiClient(String publicIp) async {
   }
 }
 ```
+
+**Obtaining Public IP Address (Example)**
+
+The Japan Post API requires your public IP address for token acquisition. You can obtain this programmatically using packages like `public_ip_address`.
+
+First, add the dependency to your `pubspec.yaml`:
+
+```yaml
+dependencies:
+  public_ip_address: ^latest_version # Use the latest version
+```
+
+Then, you can get the IP address like this:
+
+```dart
+import 'package:public_ip_address/public_ip_address.dart';
+
+Future<String?> getPublicIp() async {
+  final ipChecker = IpAddress();
+  try {
+    final ipAddress = await ipChecker.getIp();
+    return ipAddress;
+  } catch (e) {
+    // Handle error, e.g., log it or show a message
+    return null;
+  }
+}
+```
+
+You would then pass the result of `getPublicIp()` to the `initializeApiClient` function.
 
 ### Postal Code Search
 
