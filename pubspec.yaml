@@ -1,6 +1,6 @@
 name: japan_post_api_client
 description: "A Flutter client for the Japan Post API."
-version: 0.9.0
+version: 0.9.1
 homepage: https://github.com/satoyan/japan_postal_api_client_for_flutter
 repository: https://github.com/satoyan/japan_postal_api_client_for_flutter
 issue_tracker: https://github.com/satoyan/japan_postal_api_client_for_flutter/issues
