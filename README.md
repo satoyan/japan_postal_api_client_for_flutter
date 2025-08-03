@@ -13,11 +13,21 @@ and the Flutter guide for
 
 [English](README.md) | [日本語](README_ja.md)
 
+# japan_post_api_client
+
+[![pub package](https://img.shields.io/pub/v/japan_post_api_client.svg)](https://pub.dev/packages/japan_post_api_client)
+![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)
+[![Platform Badge](https://img.shields.io/badge/platform-android%20|%20ios%20-green.svg)](https://pub.dev/packages/japan_post_api_client)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A Flutter client for the Japan Post API (https://lp-api.da.pf.japanpost.jp/). 
 This package simplifies interaction with Japan Post services, making it incredibly straightforward to integrate postal code and address search functionalities into your Flutter applications.
 
-日本郵便API（https://lp-api.da.pf.japanpost.jp/）のFlutterクライアントです。 
+日本郵便API（https://lp-api.da.pf.japanpost.jp/） のFlutterクライアントです。 
 このパッケージは日本郵便サービスとの連携を簡素化し、郵便番号や住所検索機能をFlutterアプリケーションに非常に簡単に統合できるようにします。
+
+
+![demo!](https://raw.githubusercontent.com/satoyan/japan_postal_api_client_for_flutter/refs/heads/master/example/demo.gif)
 
 ## Features
 
