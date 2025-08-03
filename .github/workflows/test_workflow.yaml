@@ -1,0 +1,15 @@
+name: Run Unit Tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.x' # Use a specific Flutter version, e.g., '3.19.x' or 'stable'
+    - run: flutter pub get
+    - run: flutter test
