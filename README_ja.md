@@ -284,5 +284,3 @@ Future<List<AddressResAddressesInner>> directSearchAddress(AddressReq addressReq
 ```
 
 ## 追加情報
-
-TODO: パッケージについてユーザーにもっと伝える: 詳細情報を見つける場所、パッケージへの貢献方法、問題の報告方法、パッケージ作成者からの期待される応答など。
