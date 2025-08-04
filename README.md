@@ -60,11 +60,16 @@ You will also need to obtain an API token using your public IP address. The `get
 
 ```dart
 import 'package:japan_post_api_client/japan_post_api_client.dart';
+import 'package:public_ip_address/public_ip_address.dart';
 
 // Replace with your actual client ID and secret key
-final JapanPostApiClient apiClient = JapanPostApiClient;
+final apiClient = JapanPostApiClient(
+    clientId: 'YOUR_CLIENT_ID',
+    secretKey: 'YOUR_SECRET_KEY',
+);
 
 Future<void> initializeApiClient(String publicIp) async {
+
   final result = await apiClient.getToken(publicIp);
   switch (result) {
     case ApiResultOk():
@@ -120,19 +125,13 @@ import 'package:japan_post_api_client/japan_post_api_client.dart';
 Future<List<SearchcodeSearchResAddressesInner>> searchByPostalCode(String postalCode) async {
   final result = await apiClient.searchByPostalCode(postalCode);
   switch (result) {
-    case ApiResultOk(data: final searchcodeRes):
-      if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {
-        // TODO: Update UI with the list of addresses
-        // For example: setState(() { _addresses = searchcodeRes.addresses; });
-        return searchcodeRes.addresses;
-      } else {
-        // TODO: Handle no address found, e.g., show a message to the user
-        // print('No address found for postal code: $postalCode');
-        return [];
-      }
+    case ApiResultOk(data: SearchcodeSearchRes(addresses: final data)):
+        return data;
     case ApiResultError(error: final e, stackTrace: final s):
       // TODO: Handle search error, e.g., show a SnackBar or dialog
       // print('Error searching by postal code: $e');
+      return [];
+    default: 
       return [];
   }
 }
@@ -154,19 +153,13 @@ Future<List<AddressResAddressesInner>> searchByAddressDetails(String prefName, S
   );
   final result = await apiClient.searchByAddress(addressReq);
   switch (result) {
-    case ApiResultOk(data: final addressRes):
-      if (addressRes != null && addressRes.addresses.isNotEmpty) {
-        // TODO: Update UI with the list of addresses
-        // For example: setState(() { _addresses = addressRes.addresses; });
-        return addressRes.addresses;
-      } else {
-        // TODO: Handle no address found
-        // print('No address found for the provided details.');
-        return [];
-      }
+    case ApiResultOk(data: AddressRes(addresses: final data)):
+        return data;
     case ApiResultError(error: final e, stackTrace: final s):
       // TODO: Handle search error, e.g., show a SnackBar or dialog
       // print('Error searching by address details: $e');
+      return [];
+    default: 
       return [];
   }
 }

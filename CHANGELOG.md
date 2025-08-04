@@ -1,3 +1,7 @@
+## 0.9.3
+
+*   Corrected public IP address acquisition example in README.md.
+
 ## 0.9.2
 
 *   Updated pubspec.yaml description for higher pub points.
