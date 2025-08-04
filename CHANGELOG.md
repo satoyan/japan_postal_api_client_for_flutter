@@ -1,3 +1,7 @@
+## 0.9.4
+
+*   Added "Simple example (Dart cli)" to README.md.
+
 ## 0.9.3
 
 *   Corrected public IP address acquisition example in README.md.

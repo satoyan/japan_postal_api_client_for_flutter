@@ -53,6 +53,102 @@ This package simplifies interaction with Japan Post services, making it incredib
 
 ## Usage
 
+## Simple example (Dart cli)
+
+```bash
+# Because Japan Pos API required your IP address to obtain token
+# you need to get current your public ip address like below or anything you like.
+$ curl -s httpbin.org/ip | jq '.origin'
+# "xxx.xxx.xxx.xxx" 
+```
+
+```dart
+import 'dart:io';
+import 'package:japan_post_api_client/japan_post_api_client.dart';
+
+Future<void> main() async {
+  final client = JapanPostApiClient(
+    clientId: 'YOUR_CLIENT_ID',
+    secretKey: 'YOUR_SECRET_KEY',
+  );
+
+  await client.getToken('IP_ADDRESS_GIVEN_ABOVE');
+
+  final result = await client.searchByAddress(
+    AddressReq(prefName: '神奈川県', cityName: '横浜市青葉区', townName: '緑山'),
+  );
+
+  switch (result) {
+    case ApiResultOk(data: AddressRes(addresses: final data)):
+      for (final address in data) {
+        print('$address');
+      }
+    case ApiResultError(error: final e, stackTrace: final s):
+      print('Error: $e, $s');
+    default:
+      print('something went wrong');
+  }
+
+  exit(0);
+}
+```
+
+```
+# outpub should be like below
+
+AddressResAddressesInner[zipCode=2270037, prefCode=14, prefName=神奈川県, prefKana=カナガワケン, prefRoma=KANAGAWA, cityCode=14117, cityName=横浜市青葉区, cityKana=ヨコハマシアオバク, cityRoma=YOKOHAMA-SHI AOBA-KU, townName=緑山, townKana=ミドリヤマ, townRoma=MIDORIYAMA]
+```
+
+
+## Usage
+
+## Simple example (Dart cli)
+
+```bash
+# Because Japan Pos API required your IP address to obtain token
+# you need to get current your public ip address like below or anything you like.
+$ curl -s httpbin.org/ip | jq '.origin'
+# "xxx.xxx.xxx.xxx" 
+```
+
+```dart
+import 'dart:io';
+import 'package:japan_post_api_client/japan_post_api_client.dart';
+
+Future<void> main() async {
+  final client = JapanPostApiClient(
+    clientId: 'YOUR_CLIENT_ID',
+    secretKey: 'YOUR_SECRET_KEY',
+  );
+
+  await client.getToken('IP_ADDRESS_GIVEN_ABOVE');
+
+  final result = await client.searchByAddress(
+    AddressReq(prefName: '神奈川県', cityName: '横浜市青葉区', townName: '緑山'),
+  );
+
+  switch (result) {
+    case ApiResultOk(data: AddressRes(addresses: final data)):
+      for (final address in data) {
+        print('$address');
+      }
+    case ApiResultError(error: final e, stackTrace: final s):
+      print('Error: $e, $s');
+    default:
+      print('something went wrong');
+  }
+
+  exit(0);
+}
+```
+
+```
+# outpub should be like below
+
+AddressResAddressesInner[zipCode=2270037, prefCode=14, prefName=神奈川県, prefKana=カナガワケン, prefRoma=KANAGAWA, cityCode=14117, cityName=横浜市青葉区, cityKana=ヨコハマシアオバク, cityRoma=YOKOHAMA-SHI AOBA-KU, townName=緑山, townKana=ミドリヤマ, townRoma=MIDORIYAMA]
+```
+
+
 ### Initialize the API Client
 
 Initialize the `JapanPostApiClient` with your client ID and secret key. 
