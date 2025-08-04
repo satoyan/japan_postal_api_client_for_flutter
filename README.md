@@ -222,35 +222,15 @@ For more granular control or to access specific API endpoints directly, you can 
 
 ```dart
 import 'package:japan_post_api_client/japan_post_api_client.dart';
-import 'package:japan_post_api_client/src/api/searchcode_api.dart'; // Import if not already available
-import 'package:japan_post_api_client/src/model/searchcode_search_res.dart'; // Import if not already available
 
-Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(String postalCode, {
-  String? dgacode,
-  String? prefCode,
-  String? prefName,
-  String? prefKana,
-  String? prefRoma,
-  int? cityCode,
-  String? cityName,
-  String? cityKana,
-  String? cityRoma,
-  String? townName,
-  String? townKana,
-  String? townRoma,
-  String? bizName,
-  String? bizKana,
-  String? bizRoma,
-  String? blockName,
-  String? otherName,
-  String? address,
-  String? longitude,
-  String? latitude,
-  int? page,
-  int? limit,
+Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(
+  String postalCode, {
+  num? page,
+  num? limit,
+  String? ecUid,
+  num? choikitype,
+  num? searchtype,
 }) async {
-  // Ensure API client is initialized and token is valid
-  // await apiClient.getToken(publicIp); // Call this if token is not yet obtained or expired
 
   final SearchcodeApi? searchcodeApi = apiClient.searchcodeApi;
 
@@ -262,28 +242,10 @@ Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(String postalCo
   try {
     final searchcodeRes = await searchcodeApi.searchCode(
       postalCode,
-      dgacode: dgacode,
-      prefCode: prefCode,
-      prefName: prefName,
-      prefKana: prefKana,
-      prefRoma: prefRoma,
-      cityCode: cityCode,
-      cityName: cityName,
-      cityKana: cityKana,
-      cityRoma: cityRoma,
-      townName: townName,
-      townKana: townKana,
-      townRoma: townRoma,
-      bizName: bizName,
-      bizKana: bizKana,
-      bizRoma: bizRoma,
-      blockName: blockName,
-      otherName: otherName,
-      address: address,
-      longitude: longitude,
-      latitude: latitude,
-      page: page,
       limit: limit,
+      searchtype: searchtype,
+      page: page,
+      choikitype: choikitype,
     );
 
     if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {
@@ -300,40 +262,3 @@ Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(String postalCo
 }
 ```
 
-**Example: Using `addresszipApi` directly**
-
-```dart
-import 'package:japan_post_api_client/japan_post_api_client.dart';
-import 'package:japan_post_api_client/src/api/addresszip_api.dart'; // Import if not already available
-import 'package:japan_post_api_client/src/model/address_req.dart'; // Import if not already available
-import 'package:japan_post_api_client/src/model/address_res.dart'; // Import if not already available
-
-Future<List<AddressResAddressesInner>> directSearchAddress(AddressReq addressReq) async {
-  // Ensure API client is initialized and token is valid
-  // await apiClient.getToken(publicIp); // Call this if token is not yet obtained or expired
-
-  final AddresszipApi? addresszipApi = apiClient.addresszipApi;
-
-  if (addresszipApi == null) {
-    // Handle case where addresszipApi is not initialized (e.g., token not obtained)
-    return [];
-  }
-
-  try {
-    final addressRes = await addresszipApi.searchAddress(addressReq);
-
-    if (addressRes != null && addressRes.addresses.isNotEmpty) {
-      // TODO: Process and display the addresses
-      return addressRes.addresses;
-    } else {
-      // TODO: Handle no address found
-      return [];
-    }
-  } catch (e) {
-    // TODO: Handle API error
-    return [];
-  }
-}
-```
-
-## Additional information

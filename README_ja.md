@@ -173,31 +173,12 @@ import 'package:japan_post_api_client/src/api/searchcode_api.dart'; // 既に利
 import 'package:japan_post_api_client/src/model/searchcode_search_res.dart'; // 既に利用可能な場合はインポート不要
 
 Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(String postalCode, {
-  String? dgacode,
-  String? prefCode,
-  String? prefName,
-  String? prefKana,
-  String? prefRoma,
-  int? cityCode,
-  String? cityName,
-  String? cityKana,
-  String? cityRoma,
-  String? townName,
-  String? townKana,
-  String? townRoma,
-  String? bizName,
-  String? bizKana,
-  String? bizRoma,
-  String? blockName,
-  String? otherName,
-  String? address,
-  String? longitude,
-  String? latitude,
-  int? page,
-  int? limit,
+  num? page,
+  num? limit,
+  String? ecUid,
+  num? choikitype,
+  num? searchtype,
 }) async {
-  // APIクライアントが初期化され、トークンが有効であることを確認する
-  // await apiClient.getToken(publicIp); // トークンがまだ取得されていないか期限切れの場合はこれを呼び出す
 
   final SearchcodeApi? searchcodeApi = apiClient.searchcodeApi;
 
@@ -209,28 +190,10 @@ Future<List<SearchcodeSearchResAddressesInner>> directSearchCode(String postalCo
   try {
     final searchcodeRes = await searchcodeApi.searchCode(
       postalCode,
-      dgacode: dgacode,
-      prefCode: prefCode,
-      prefName: prefName,
-      prefKana: prefKana,
-      prefRoma: prefRoma,
-      cityCode: cityCode,
-      cityName: cityName,
-      cityKana: cityKana,
-      cityRoma: cityRoma,
-      townName: townName,
-      townKana: townKana,
-      townRoma: townRoma,
-      bizName: bizName,
-      bizKana: bizKana,
-      bizRoma: bizRoma,
-      blockName: blockName,
-      otherName: otherName,
-      address: address,
-      longitude: longitude,
-      latitude: latitude,
-      page: page,
       limit: limit,
+      searchtype: searchtype,
+      page: page,
+      choikitype: choikitype,
     );
 
     if (searchcodeRes != null && searchcodeRes.addresses.isNotEmpty) {

@@ -1,3 +1,7 @@
+## 0.9.6
+
+*   Updated `searchcodeApi` example in README.md.
+
 ## 0.9.5
 
 *   Reorganized README.md usage examples.
