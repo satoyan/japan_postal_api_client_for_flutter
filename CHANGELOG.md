@@ -1,3 +1,7 @@
+## 0.9.5
+
+*   Reorganized README.md usage examples.
+
 ## 0.9.4
 
 *   Added "Simple example (Dart cli)" to README.md.
