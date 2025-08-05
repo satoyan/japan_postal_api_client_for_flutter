@@ -1,3 +1,8 @@
+## 1.0.0
+
+*   Added comprehensive unit tests for the API client.
+*   Updated dependencies.
+
 ## 0.9.6
 
 *   Updated `searchcodeApi` example in README.md.
