@@ -45,6 +45,7 @@ This package simplifies interaction with Japan Post services, making it incredib
     ```yaml
     dependencies:
       japan_post_api_client: ^0.0.1 # Use the latest version
+      public_ip_address: ^1.2.0 # As an example, we use this package to get public ip address on running device. You can use your favorite package.
     ```
 
 2.  **Install dependencies:**
@@ -53,16 +54,11 @@ This package simplifies interaction with Japan Post services, making it incredib
 
 ## Simple example (Dart cli)
 
-```bash
-# Because Japan Post API requires your IP address to obtain token
-# you need to get current your public ip address like below or anything you like.
-$ curl -s httpbin.org/ip | jq '.origin'
-# "xxx.xxx.xxx.xxx" 
-```
-
 ```dart
 import 'dart:io';
+
 import 'package:japan_post_api_client/japan_post_api_client.dart';
+import 'package:public_ip_address/public_ip_address.dart';
 
 Future<void> main() async {
   final client = JapanPostApiClient(
@@ -70,16 +66,14 @@ Future<void> main() async {
     secretKey: 'YOUR_SECRET_KEY',
   );
 
-  await client.getToken('IP_ADDRESS_GIVEN_ABOVE');
-
-  final result = await client.searchByAddress(
-    AddressReq(prefName: '神奈川県', cityName: '横浜市青葉区', townName: '緑山'),
-  );
+  final ipAddress = await (IpAddress().getIp());
+  await client.getToken(ipAddress);
+  final result = await client.searchByPostalCode('1000001');
 
   switch (result) {
-    case ApiResultOk(data: AddressRes(addresses: final data)):
+    case ApiResultOk(data: SearchcodeSearchRes(addresses: final data)):
       for (final address in data) {
-        print('$address');
+        print('$data');
       }
     case ApiResultError(error: final e, stackTrace: final s):
       print('Error: $e, $s');
@@ -91,10 +85,9 @@ Future<void> main() async {
 }
 ```
 
-```
+```bash
 # output should be like below
-
-AddressResAddressesInner[zipCode=2270037, prefCode=14, prefName=神奈川県, prefKana=カナガワケン, prefRoma=KANAGAWA, cityCode=14117, cityName=横浜市青葉区, cityKana=ヨコハマシアオバク, cityRoma=YOKOHAMA-SHI AOBA-KU, townName=緑山, townKana=ミドリヤマ, townRoma=MIDORIYAMA]
+SearchcodeSearchResAddressesInner[dgacode=null, zipCode=null, prefCode=13, prefName=東京都, prefKana=トウキョウト, prefRoma=TOKYO, cityCode=null, cityName=千代田区, cityKana=チヨダク, cityRoma=CHIYODA-KU, townName=千代田, townKana=チヨダ, townRoma=CHIYODA, bizName=null, bizKana=null, bizRoma=null, blockName=null, otherName=null, address=null, longitude=null, latitude=null]
 ```
 
 ## Usage

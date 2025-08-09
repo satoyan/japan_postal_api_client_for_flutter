@@ -1,27 +1,35 @@
 <!--
-このREADMEはパッケージについて説明します。このパッケージをpub.devに公開すると、
+このREADMEはパッケージを説明します。このパッケージをpub.devに公開すると、
 このREADMEの内容がパッケージのランディングページに表示されます。
 
-優れたパッケージREADMEの書き方については、
-[パッケージページの作成](https://dart.dev/tools/pub/writing-package-pages)ガイドを参照してください。
+良いパッケージREADMEを書く方法については、
+[パッケージページを書く](https://dart.dev/tools/pub/writing-package-pages)ガイドを参照してください。
 
-パッケージ開発に関する一般的な情報については、Dartの
-[パッケージの作成](https://dart.dev/guides/libraries/create-packages)ガイドとFlutterの
-[パッケージとプラグインの開発](https://flutter.dev/to/develop-packages)ガイドを参照してください。
+パッケージの開発に関する一般的な情報については、Dartガイドの
+[パッケージの作成](https://dart.dev/guides/libraries/create-packages)と
+Flutterガイドの[パッケージとプラグインの開発](https://flutter.dev/to/develop-packages)を参照してください。
 -->
 
-[English](README.md) | 日本語
+[English](README.md) | [日本語](README_ja.md)
 
-日本郵便API (https://lp-api.da.pf.japanpost.jp/) 用のFlutterクライアントです。
-このパッケージは、日本郵便サービスとの連携を簡素化し、郵便番号や住所検索機能をFlutterアプリケーションに非常に簡単に統合できるようにします。
+# japan_post_api_client
 
-## 機能
+[![pub package](https://img.shields.io/pub/v/japan_post_api_client.svg)](https://pub.dev/packages/japan_post_api_client)
+![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)
+[![Platform Badge](https://img.shields.io/badge/platform-android%20|%20ios%20-green.svg)](https://pub.dev/packages/japan_post_api_client)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+日本郵便API（https://lp-api.da.pf.japanpost.jp/） のFlutterクライアントです。 
+このパッケージは日本郵便サービスとの連携を簡素化し、郵便番号や住所検索機能をFlutterアプリケーションに非常に簡単に統合できるようにします。
+
+![デモ!](https://raw.githubusercontent.com/satoyan/japan_postal_api_client_for_flutter/refs/heads/master/example/demo.gif)
+
+## 特徴
 
 *   **郵便番号検索:** 日本の郵便番号を使用して住所を簡単に検索できます。
-*   **住所詳細検索:** 都道府県、市区町村、町域名を指定して住所を検索できます。
-*   **APIトークン管理:** APIトークンの取得と管理を処理し、シームレスな統合を実現します。
-*   **エラーハンドリング:** API応答に対する明確なエラーハンドリングを提供します。
-
+*   **住所詳細検索:** 都道府県、市区町村、町名を指定して住所を検索できます。
+*   **APIトークン管理:** シームレスな統合のためにAPIトークンの取得と管理を行います。
+*   **エラーハンドリング:** APIレスポンスの明確なエラーハンドリングを提供します。
 
 ## はじめに
 
@@ -31,11 +39,44 @@
     ```yaml
     dependencies:
       japan_post_api_client: ^0.0.1 # 最新バージョンを使用
+      public_ip_address: ^1.2.0 # 実行中のデバイスでパブリックIPアドレスを取得するためにこのパッケージを使用します。お好みのパッケージを使用することもできます。
     ```
 
 2.  **依存関係のインストール:**
     プロジェクトのルートディレクトリで`flutter pub get`を実行します。
 
+## 簡単な例 (Dart CLI)
+
+```dart
+import 'dart:io';
+
+import 'package:japan_post_api_client/japan_post_api_client.dart';
+import 'package:public_ip_address/public_ip_address.dart';
+
+Future<void> main() async {
+  final client = JapanPostApiClient(
+    clientId: 'YOUR_CLIENT_ID',
+    secretKey: 'YOUR_SECRET_KEY',
+  );
+
+  final ipAddress = await (IpAddress().getIp());
+  await client.getToken(ipAddress);
+  final result = await client.searchByPostalCode('1000001');
+
+  switch (result) {
+    case ApiResultOk(data: SearchcodeSearchRes(addresses: final data)):
+      for (final address in data) {
+        print('$data');
+      }
+    case ApiResultError(error: final e, stackTrace: final s):
+      print('Error: $e, $s');
+    default:
+      print('何かがうまくいきませんでした');
+  }
+
+  exit(0);
+}
+```
 
 ## 使用方法
 
@@ -77,7 +118,7 @@ Future<void> initializeApiClient(String publicIp) async {
 
 ```yaml
 dependencies:
-  public_ip_address: ^最新バージョン # 最新のバージョンを使用してください
+  public_ip_address: ^1.2.0 # 最新のバージョンを使用してください
 ```
 
 Then, you can get the IP address like this:
