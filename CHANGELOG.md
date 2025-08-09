@@ -1,3 +1,7 @@
+## 1.0.3
+
+*   Updated dependencies and library exports.
+
 ## 1.0.2
 
 *   Updated dependencies.
