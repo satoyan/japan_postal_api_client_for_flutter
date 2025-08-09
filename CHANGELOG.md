@@ -1,3 +1,7 @@
+## 1.0.1
+
+*   Updated README.md and README_ja.md content.
+
 ## 1.0.0
 
 *   Added comprehensive unit tests for the API client.
