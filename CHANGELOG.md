@@ -1,3 +1,7 @@
+## 1.0.2
+
+*   Updated dependencies.
+
 ## 1.0.1
 
 *   Updated README.md and README_ja.md content.
