@@ -48,7 +48,12 @@ class _AddressSearchPageState extends State<AddressSearchPage> {
   void _initClient() async {
     try {
       final myPublicIp = await IpAddress().getIp();
-      await _apiClient.getToken(myPublicIp);
+      final tokenResult = await _apiClient.getToken(myPublicIp);
+
+      if (tokenResult case ApiResultError(error: final e)) {
+        throw e;
+      }
+
       _logger.i('API Client initialized and token obtained.');
     } catch (e) {
       _logger.e('Error initializing API Client or getting token: $e');
