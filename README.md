@@ -40,12 +40,25 @@ This package simplifies interaction with Japan Post services, making it incredib
 ## Getting started
 
 1.  **Add to `pubspec.yaml`:**
+
     Add the `japan_post_api_client` to your project's `pubspec.yaml` file:
 
     ```yaml
     dependencies:
       japan_post_api_client: ^0.0.1 # Use the latest version
-      public_ip_address: ^1.2.0 # As an example, we use this package to get public ip address on running device. You can use your favorite package.
+    ```
+
+
+2.  **Optional:**
+    
+    Add an optional package that can get public IP address on running devices.
+
+    The Japan Post API requires your public IP address for token acquisition. 
+    While you can obtain this through various methods, the `public_ip_address` package offers a convenient, optional way to do so programmatically.
+
+    ```yaml
+    dependencies:
+      public_ip_address: latest
     ```
 
 2.  **Install dependencies:**
@@ -73,7 +86,7 @@ Future<void> main() async {
   switch (result) {
     case ApiResultOk(data: SearchcodeSearchRes(addresses: final data)):
       for (final address in data) {
-        print('$data');
+        print('$address');
       }
     case ApiResultError(error: final e, stackTrace: final s):
       print('Error: $e, $s');
@@ -91,6 +104,8 @@ SearchcodeSearchResAddressesInner[dgacode=null, zipCode=null, prefCode=13, prefN
 ```
 
 ## Usage
+
+The Japan Post API requires your public IP address for token acquisition. While you can obtain this through various methods, the `public_ip_address` package offers a convenient, optional way to do so programmatically.
 
 
 ### Initialize the API Client
@@ -129,7 +144,7 @@ Future<void> initializeApiClient(String publicIp) async {
 
 The Japan Post API requires your public IP address for token acquisition. You can obtain this programmatically using packages like `public_ip_address`.
 
-First, add the dependency to your `pubspec.yaml`:
+To use `public_ip_address`, first add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:

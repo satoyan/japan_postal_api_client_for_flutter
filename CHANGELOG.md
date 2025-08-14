@@ -1,3 +1,7 @@
+## 1.0.4
+
+*   Clarified `public_ip_address` as optional in README.md.
+
 ## 1.0.3
 
 *   Updated dependencies and library exports.
